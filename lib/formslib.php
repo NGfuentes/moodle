@@ -660,6 +660,11 @@ abstract class moodleform {
 
         if (!$this->is_cancelled() and $this->is_submitted() and $this->is_validated()) {
             $data = $mform->exportValues();
+            // changes problematic backslash for normal slash on new forum topic subject       
+            if (array_key_exists("subject", $data)){
+                $data['subject'] = str_replace('\\', '/', $data['subject']);
+            }
+            
             unset($data['sesskey']); // we do not need to return sesskey
             unset($data['_qf__'.$this->_formname]);   // we do not need the submission marker too
             if (empty($data)) {
